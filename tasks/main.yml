@@ -1,0 +1,39 @@
+---
+- name: Check mozjpeg is installed
+  become: yes
+  stat:
+    path: "{{ mozjpeg_install_dest }}/{{ mozjpeg_command_name }}"
+  register: cmd
+
+- block:
+    - name: install build tools
+      become: yes
+      apt:
+        pkg: "{{ item }}"
+        update_cache: yes
+      with_items:
+        - autoconf
+        - automake
+        - libtool
+        - nasm
+
+    - name: Download source code
+      become: yes
+      unarchive:
+        src: "{{ mozjpeg_download_url }}"
+        dest: "{{ mozjpeg_download_dest }}"
+        remote_src: true
+
+    - name: configure,build,install and check
+      become: yes
+      command: "{{ item }}"
+      args:
+        chdir: "{{ mozjpeg_download_dest }}/mozjpeg"
+      with_items:
+        - ./configure --prefix={{ mozjpeg_prefix }}
+        - make
+        - make install
+        - "ldconfig {{ mozjpeg_ldconfig_path }}"
+        # - make check
+
+  when: not cmd.stat.exists
