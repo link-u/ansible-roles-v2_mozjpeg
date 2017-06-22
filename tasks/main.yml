@@ -2,6 +2,7 @@
 - name: Check mozjpeg is installed
   command: which cjpeg
   register: cmd
+  ignore_errors: yes
 
 - block:
     - name: install build tools
