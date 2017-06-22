@@ -1,8 +1,6 @@
 ---
 - name: Check mozjpeg is installed
-  become: yes
-  stat:
-    path: "{{ mozjpeg_install_dest }}/{{ mozjpeg_command_name }}"
+  command: which cjpeg
   register: cmd
 
 - block:
@@ -35,5 +33,4 @@
         - make install
         - "ldconfig {{ mozjpeg_ldconfig_path }}"
         # - make check
-
-  when: not cmd.stat.exists
+  when: cmd|failed or mozjpeg_force_install
