@@ -17,6 +17,13 @@
         - libtool
         - nasm
 
+    - name: install dependencies packages
+      become: yes
+      apt:
+        pkg: "{{ item }}"
+        update_cache: yes
+      with_items: "{{ mozjpeg_dependencies }}"
+
     - name: Download source code
       become: yes
       unarchive:
