@@ -16,6 +16,7 @@
         - make
         - libtool
         - nasm
+        - pkg-config
 
     - name: install dependencies packages
       become: yes
@@ -37,7 +38,9 @@
       args:
         chdir: "{{ mozjpeg_download_dest }}/mozjpeg"
       with_items:
+        - pkg-config --cflags --libs libpng
         - ./configure --prefix={{ mozjpeg_prefix }}
+        - make clean
         - make
         - make install
         - "ldconfig {{ mozjpeg_ldconfig_path }}"
