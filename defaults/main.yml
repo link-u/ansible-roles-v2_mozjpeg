@@ -1,6 +1,6 @@
 ---
 mozjpeg_force_install: no
-mozjpeg_version: 3.2
+mozjpeg_version: 3.3.1
 mozjpeg_command_name: mozjpegtran
 mozjpeg_download_url: https://github.com/mozilla/mozjpeg/releases/download/v{{ mozjpeg_version }}/mozjpeg-{{ mozjpeg_version }}-release-source.tar.gz
 mozjpeg_prefix: /usr/local
