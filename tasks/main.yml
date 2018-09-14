@@ -1,8 +1,9 @@
 ---
 - name: Check mozjpeg is installed
-  command: which cjpeg
-  register: cmd
-  ignore_errors: yes
+  stat:
+    path: "{{ mozjpeg_install_dest }}/cjpeg"
+  register: mozjpeg_cmd
+  changed_when: not mozjpeg_cmd.stat.exists
 
 - block:
     - name: install build tools
@@ -45,4 +46,4 @@
         - make install
         - "ldconfig {{ mozjpeg_ldconfig_path }}"
         # - make check
-  when: cmd|failed or mozjpeg_force_install
+  when: not mozjpeg_cmd.stat.exists or mozjpeg_force_install
