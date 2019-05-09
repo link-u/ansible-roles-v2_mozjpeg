@@ -37,9 +37,9 @@
       become: yes
       command: "{{ item }}"
       args:
-        chdir: "{{ mozjpeg_download_dest }}/mozjpeg"
+        chdir: "{{ mozjpeg_download_dest }}/mozjpeg-{{ mozjpeg_version }}"
       with_items:
-        - pkg-config --cflags --libs libpng
+        - autoreconf -fiv
         - ./configure --prefix={{ mozjpeg_prefix }}
         - make clean
         - make
