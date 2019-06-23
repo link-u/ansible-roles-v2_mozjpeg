@@ -3,7 +3,7 @@
   stat:
     path: "{{ mozjpeg_install_dest }}/cjpeg"
   register: mozjpeg_cmd
-  changed_when: not mozjpeg_cmd.stat.exists
+  changed_when: (not mozjpeg_cmd.stat.exists) | bool
 
 - block:
     - name: install build tools
@@ -46,4 +46,4 @@
         - make install
         - "ldconfig {{ mozjpeg_ldconfig_path }}"
         # - make check
-  when: not mozjpeg_cmd.stat.exists or mozjpeg_force_install
+  when: (not mozjpeg_cmd.stat.exists or mozjpeg_force_install) | bool
