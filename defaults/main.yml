@@ -1,13 +1,18 @@
 ---
+# defaults/main.yml (mozjpeg)
+# Prefix : mozjpeg
+
+### インストール設定 ###############################################################################
+## 基本設定
+mozjpeg_install_flag: True  # インストールフラグ
 mozjpeg_force_install: no
 mozjpeg_version: 3.3.1
-mozjpeg_command_name: mozjpegtran
-mozjpeg_download_url: https://github.com/mozilla/mozjpeg/archive/v{{ mozjpeg_version }}.tar.gz
-mozjpeg_prefix: /usr/local
+mozjpeg_command_name: "mozjpegtran"
+mozjpeg_download_url: "https://github.com/mozilla/mozjpeg/archive/v{{ mozjpeg_version }}.tar.gz"
+mozjpeg_prefix: "/usr/local"
 mozjpeg_download_dest: "{{ mozjpeg_prefix }}/src"
 mozjpeg_ldconfig_path: "{{ mozjpeg_prefix }}/lib"
 mozjpeg_install_dest: "{{ mozjpeg_prefix }}/bin"
-
 mozjpeg_dependencies:
-  - libpng-dev
-  - libtiff-dev
+  - "libpng-dev"
+  - "libtiff-dev"

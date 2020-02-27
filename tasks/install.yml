@@ -1,0 +1,44 @@
+---
+# tasks/install.yml (mozjpeg)
+# Prefix : mozjpeg
+
+- name: Check mozjpeg is installed
+  stat:
+    path: "{{ mozjpeg_install_dest }}/cjpeg"
+  register: mozjpeg_cmd
+  changed_when: (not mozjpeg_cmd.stat.exists) | bool
+
+- block:
+    - name: Install build tools
+      become: yes
+      apt:
+        pkg: ['autoconf', 'automake', 'make', 'libtool', 'nasm', 'pkg-config']
+        update_cache: yes
+
+    - name: Install dependencies packages
+      become: yes
+      apt:
+        pkg: "{{ mozjpeg_dependencies }}"
+        update_cache: yes
+
+    - name: Download source code
+      become: yes
+      unarchive:
+        src: "{{ mozjpeg_download_url }}"
+        dest: "{{ mozjpeg_download_dest }}"
+        remote_src: true
+
+    - name: configure, build, install and check
+      become: yes
+      command: "{{ item }}"
+      args:
+        chdir: "{{ mozjpeg_download_dest }}/mozjpeg-{{ mozjpeg_version }}"
+      with_items:
+        - autoreconf -fiv
+        - ./configure --prefix={{ mozjpeg_prefix }}
+        - make clean
+        - make
+        - make install
+        - "ldconfig {{ mozjpeg_ldconfig_path }}"
+        # - make check
+  when: (not mozjpeg_cmd.stat.exists or mozjpeg_force_install) | bool
