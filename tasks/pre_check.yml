@@ -25,6 +25,10 @@
     {% if mozjpeg_dependencies is defined %}
       echo "mozjpeg_dependencies";
     {% endif %}
+
+    {% if mozjpeg_install_dest is defined %}
+      echo "mozjpeg_install_dest";
+    {% endif %}
   register: __mozjpeg_check_deleted_vars
   check_mode: no
   changed_when:

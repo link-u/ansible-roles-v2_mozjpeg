@@ -4,7 +4,7 @@
 
 - name: Check mozjpeg is installed
   stat:
-    path: "{{ mozjpeg_install_dest }}/cjpeg"
+    path: "{{ mozjpeg_prefix }}/bin/cjpeg"
   register: mozjpeg_cmd
 
 - block:
@@ -67,7 +67,7 @@
 - name: Create a symbolic link
   file:
     src: "/usr/bin/{{ item }}"
-    dest: "{{ mozjpeg_install_dest }}/{{ item }}"
+    dest: "{{ mozjpeg_prefix }}/bin/{{ item }}"
     owner: root
     group: root
     state: link

@@ -27,7 +27,6 @@ mozjpeg_install_flag: True  # インストールフラグ
 mozjpeg_version: 3.3.1
 mozjpeg_download_url: "https://github.com/mozilla/mozjpeg/archive/v{{ mozjpeg_version }}.tar.gz"
 mozjpeg_prefix: "/usr/local"
-mozjpeg_install_dest: "{{ mozjpeg_prefix }}/bin"
 ```
 
 ### Example playbook
@@ -51,3 +50,4 @@ deb パッケージでのインストールに移行したため以下の変数�
 * `mozjpeg_download_dest`
 * `mozjpeg_ldconfig_path`
 * `mozjpeg_dependencies`
+* `mozjpeg_install_dest`
