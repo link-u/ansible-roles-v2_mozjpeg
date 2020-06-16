@@ -5,6 +5,10 @@
 ### インストール設定 ###############################################################################
 ## 基本設定
 mozjpeg_install_flag: True  # インストールフラグ
+
+## make install していた名残の変数.
+#  * deb に以降する際に make install したファイルを掃除するのに以下の変数は必要
+#  * 特に group_vars で修正するような項目はない
 mozjpeg_version: 3.3.1
 mozjpeg_download_url: "https://github.com/mozilla/mozjpeg/archive/v{{ mozjpeg_version }}.tar.gz"
 mozjpeg_prefix: "/usr/local"
