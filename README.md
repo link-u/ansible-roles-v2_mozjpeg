@@ -39,3 +39,15 @@ mozjpeg_install_dest: "{{ mozjpeg_prefix }}/bin"
   roles:
     - { role: mozjpeg, tags: ["mozjpeg"] }
 ```
+
+## 後方互換性について
+
+### 削除された変数の一覧
+
+deb パッケージでのインストールに移行したため以下の変数は `group_vars` から削除して頂いて大丈夫です.
+
+* `mozjpeg_force_install`
+* `mozjpeg_command_name`
+* `mozjpeg_download_dest`
+* `mozjpeg_ldconfig_path`
+* `mozjpeg_dependencies`
