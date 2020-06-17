@@ -60,7 +60,7 @@
 - name: Install packages
   apt:
     name: "mozjpeg"
-    state: present
+    state: latest
     update_cache: yes
 
 - name: Create a symbolic link
