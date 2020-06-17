@@ -1,0 +1,36 @@
+---
+# tasks/pre_check.yml (mozjpeg)
+# Prefix : mozjpeg
+
+- name: Check for deleted variables
+  shell: >-
+    echo "[WARNING]: 以下の変数は削除されました. 以下の URL を確認してください. @y_hashida";
+    echo "    https://github.com/link-u/ansible-roles-v2_mozjpeg/blob/master/README.md#削除された変数の一覧";
+    {% if mozjpeg_force_install is defined %}
+      echo "mozjpeg_force_install";
+    {% endif %}
+
+    {% if mozjpeg_command_name is defined %}
+      echo "mozjpeg_command_name";
+    {% endif %}
+
+    {% if mozjpeg_download_dest is defined %}
+      echo "mozjpeg_download_dest";
+    {% endif %}
+
+    {% if mozjpeg_ldconfig_path is defined %}
+      echo "mozjpeg_ldconfig_path";
+    {% endif %}
+
+    {% if mozjpeg_dependencies is defined %}
+      echo "mozjpeg_dependencies";
+    {% endif %}
+
+    {% if mozjpeg_install_dest is defined %}
+      echo "mozjpeg_install_dest";
+    {% endif %}
+  register: __mozjpeg_check_deleted_vars
+  check_mode: no
+  changed_when:
+    - (__mozjpeg_check_deleted_vars.stdout_lines | length) != 2
+  notify: "Print warning for mozjpeg (Check for deleted variables)"

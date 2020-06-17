@@ -4,41 +4,70 @@
 
 - name: Check mozjpeg is installed
   stat:
-    path: "{{ mozjpeg_install_dest }}/cjpeg"
+    path: "{{ mozjpeg_prefix }}/bin/cjpeg"
   register: mozjpeg_cmd
-  changed_when: (not mozjpeg_cmd.stat.exists) | bool
 
 - block:
     - name: Install build tools
-      become: yes
       apt:
-        pkg: ['autoconf', 'automake', 'make', 'libtool', 'nasm', 'pkg-config']
+        name: ["autoconf", "automake", "make", "libtool", "nasm", "pkg-config"]
         update_cache: yes
 
-    - name: Install dependencies packages
-      become: yes
-      apt:
-        pkg: "{{ mozjpeg_dependencies }}"
-        update_cache: yes
+    - name: Clean up tmp directory for source code
+      file:
+        path: "/tmp/src_mozjpeg"
+        state: absent
+
+    - name: Create tmp directory for source code
+      file:
+        path: "/tmp/src_mozjpeg"
+        state: directory
 
     - name: Download source code
-      become: yes
       unarchive:
         src: "{{ mozjpeg_download_url }}"
-        dest: "{{ mozjpeg_download_dest }}"
+        dest: "/tmp/src_mozjpeg"
         remote_src: true
 
-    - name: configure, build, install and check
-      become: yes
+    - name: configure and make uninstall
       command: "{{ item }}"
       args:
-        chdir: "{{ mozjpeg_download_dest }}/mozjpeg-{{ mozjpeg_version }}"
-      with_items:
-        - autoreconf -fiv
-        - ./configure --prefix={{ mozjpeg_prefix }}
-        - make clean
-        - make
-        - make install
-        - "ldconfig {{ mozjpeg_ldconfig_path }}"
-        # - make check
-  when: (not mozjpeg_cmd.stat.exists or mozjpeg_force_install) | bool
+        chdir: "/tmp/src_mozjpeg/mozjpeg-{{ mozjpeg_version }}"
+      loop:
+        - "autoreconf -fiv"
+        - "./configure --prefix={{ mozjpeg_prefix }}"
+        - "make uninstall"
+
+    - name: Remove tmp directory for source code
+      file:
+        path: "/tmp/src_mozjpeg"
+        state: absent
+  when:
+    - mozjpeg_cmd.stat.exists | bool
+    - (not mozjpeg_cmd.stat.islnk) | bool
+
+- name: Trust our package maintainers.
+  apt_key:
+    id: 4DE76DC836A27DBAE17FAC4B09C9B9C18F429AAE
+    url: https://pkg.link-u.co.jp/key.asc
+    state: present
+
+- name: Add our apt repository.
+  apt_repository:
+    repo: deb https://pkg.link-u.co.jp/{{ ansible_distribution_release }} ./
+    state: present
+
+- name: Install packages
+  apt:
+    name: "mozjpeg"
+    state: latest
+    update_cache: yes
+
+- name: Create a symbolic link
+  file:
+    src: "/usr/bin/{{ item }}"
+    dest: "{{ mozjpeg_prefix }}/bin/{{ item }}"
+    owner: root
+    group: root
+    state: link
+  loop: ["cjpeg", "djpeg", "jpegtran", "rdjpgcom", "tjbench", "wrjpgcom"]
