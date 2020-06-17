@@ -13,6 +13,11 @@
         name: ["autoconf", "automake", "make", "libtool", "nasm", "pkg-config"]
         update_cache: yes
 
+    - name: Clean up tmp directory for source code
+      file:
+        path: "/tmp/src_mozjpeg"
+        state: absent
+
     - name: Create tmp directory for source code
       file:
         path: "/tmp/src_mozjpeg"
