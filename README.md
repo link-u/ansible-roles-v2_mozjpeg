@@ -1,5 +1,7 @@
 # mozjpeg
 
+![ansible ci](https://github.com/link-u/ansible-roles-v2_mozjpeg/workflows/ansible%20ci/badge.svg)
+
 ## 概要
 
 mozjpeg をインストールする ansible role
