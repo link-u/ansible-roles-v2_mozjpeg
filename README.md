@@ -53,3 +53,6 @@ deb パッケージでのインストールに移行したため以下の変数�
 * `mozjpeg_ldconfig_path`
 * `mozjpeg_dependencies`
 * `mozjpeg_install_dest`
+
+## License
+MIT
