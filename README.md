@@ -1,5 +1,7 @@
 # mozjpeg
 
+![ansible ci](https://github.com/link-u/ansible-roles-v2_mozjpeg/workflows/ansible%20ci/badge.svg)
+
 ## 概要
 
 mozjpeg をインストールする ansible role
@@ -51,3 +53,6 @@ deb パッケージでのインストールに移行したため以下の変数�
 * `mozjpeg_ldconfig_path`
 * `mozjpeg_dependencies`
 * `mozjpeg_install_dest`
+
+## License
+MIT
