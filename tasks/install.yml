@@ -22,11 +22,17 @@
       file:
         path: "/tmp/src_mozjpeg"
         state: directory
+        owner: "root"
+        group: "root"
+        mode: "0755"
 
     - name: Download source code
       unarchive:
         src: "{{ mozjpeg_download_url }}"
         dest: "/tmp/src_mozjpeg"
+        owner: "root"
+        group: "root"
+        mode: "0755"
         remote_src: true
 
     - name: configure and make uninstall
