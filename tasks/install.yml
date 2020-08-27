@@ -7,7 +7,8 @@
     path: "{{ mozjpeg_prefix }}/bin/cjpeg"
   register: mozjpeg_cmd
 
-- block:
+- name: "Remove mozjpeg installed from source"
+  block:
     - name: Install build tools
       apt:
         name: ["autoconf", "automake", "make", "libtool", "nasm", "pkg-config"]
